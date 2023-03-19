@@ -1,0 +1,15 @@
+#screen{
+    border: 1px solid;
+    /* image-rendering: pixellated; */
+    /* image-rendering: crisp-edges; */
+    /* image-rendering: -moz-crisp-edges; */
+    margin: 5px
+}
+
+#tudo{
+    display: flex;
+}
+
+#entrada{
+    border: 1px solid;
+}

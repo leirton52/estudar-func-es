@@ -1,0 +1,24 @@
+{
+  "name": "estudar-func-es",
+  "version": "1.0.0",
+  "description": "Calculadora simples de funções",
+  "main": "script.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leirton52/estudar-func-es.git"
+  },
+  "author": "Leirton Freitas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leirton52/estudar-func-es/issues"
+  },
+  "homepage": "https://github.com/leirton52/estudar-func-es#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.21"
+  }
+}
