@@ -16,12 +16,15 @@ function drawAxis(xOrigin, yOrigin, wScreen, hScreen, fatorEscalaX, FatorEscalaY
   //FatorEscala dado em pixels por unidade de comprimento
   //grad em unidade de comprimento
   
+  ctx.font = "10px arial"
+
   let register
   for (let i = 0; i < Math.round(wScreen / (fatorEscalaX*gradX)) ; i++) {
     if( xOrigin + gradX*fatorEscalaX*i < wScreen){
       ctx.beginPath()
       ctx.moveTo(xOrigin + gradX*fatorEscalaX*i, yOrigin-5)
       ctx.lineTo(xOrigin + gradX*fatorEscalaX*i, yOrigin+5)
+      ctx.fillText(gradX* i, xOrigin + gradX*fatorEscalaX*i, yOrigin + 15)
       ctx.stroke()
 
       register = gradX*fatorEscalaX*i
@@ -29,6 +32,7 @@ function drawAxis(xOrigin, yOrigin, wScreen, hScreen, fatorEscalaX, FatorEscalaY
       ctx.beginPath()
       ctx.moveTo(xOrigin + register - gradX*fatorEscalaX*i, yOrigin-5)
       ctx.lineTo(xOrigin + register - gradX*fatorEscalaX*i, yOrigin+5)
+      ctx.fillText((register/fatorEscalaX - gradX * i).toFixed(1), xOrigin + register - gradX*fatorEscalaX*i, yOrigin + 15)
       ctx.stroke()
     }
   }
@@ -37,9 +41,8 @@ function drawAxis(xOrigin, yOrigin, wScreen, hScreen, fatorEscalaX, FatorEscalaY
     if( yOrigin + gradY*FatorEscalaY*i < hScreen){
       ctx.beginPath()
       ctx.moveTo(xOrigin - 5, yOrigin + gradY*FatorEscalaY*i)
-      console.log(yOrigin*FatorEscalaY*i)
       ctx.lineTo(xOrigin + 5, yOrigin + gradY*FatorEscalaY*i)
-      console.log(yOrigin*FatorEscalaY*i)
+      ctx.fillText( - gradY* i, xOrigin + 5, yOrigin + gradY*FatorEscalaY*i)
       ctx.stroke()
 
       register = gradY*FatorEscalaY*i
@@ -47,6 +50,7 @@ function drawAxis(xOrigin, yOrigin, wScreen, hScreen, fatorEscalaX, FatorEscalaY
       ctx.beginPath()
       ctx.moveTo(xOrigin-5, yOrigin + register - gradY*FatorEscalaY*i)
       ctx.lineTo(xOrigin+5, yOrigin + register - gradY*FatorEscalaY*i)
+      ctx.fillText((gradY* i - (register/FatorEscalaY)).toFixed(1), xOrigin + 5, yOrigin + register - gradY*FatorEscalaY*i)
       ctx.stroke()
     }
   }
@@ -103,30 +107,40 @@ function result1g(wScreen, hScreen){
     y0 = hScreen/2
   }
 
-  drawAxis(x0,y0, wScreen, hScreen, 2, 2, 10 , 5)
-
+  //calculando os fatores de escala
+  fsX = (wScreen*2/3) / Math.abs(raiz)
+  fsY = (hScreen*2/3) / Math.abs(b)
+  
+  drawAxis(x0,y0, wScreen, hScreen, fsX, fsY, 0.1 , 100)
+  
   //desenhando a reta
-  let xg, yg, ysI, ysF //xg e yg -> coodenadas do gráfico; ys -> coordenada do canvas
+  let xg, yg, xsI, xsF, ysI, ysF //xg e yg -> coodenadas do gráfico; ys -> coordenada do canvas
 
   //regra de translação de gráfico: xg = xs - xo; yg = -(ys - yo)
 
-  xg = 0 - x0
+  xg = (0 - x0)/fsX
+  xsI = xg*fsX + x0
   yg = a*xg + b
-  ysI = y0 - yg
+  ysI = y0 - yg*fsY
   
-  xg = wScreen - x0
+  xg = (wScreen - x0)/fsX
+  xsF = xg*fsX + x0
   yg = a*xg + b
-  ysF = y0 - yg
-
-  fsY = hScreen / Math.abs(ysF - ysI)
-
-  ysI = ysI * fsY
-  ysF = ysF * fsY
+  console.log(xg)
+  console.log(yg)
+  ysF = y0 - yg*fsY
+  
+  console.log('fsx:' + fsX)
+  console.log('xi:' + xsI)
+  console.log('xf:' + xsF)
+  console.log('fsy:' + fsY)
+  console.log('yi:' + ysI)
+  console.log('yf:' + ysF)
 
   ctx.strokeStyle = "blue"
   ctx.beginPath()
-  ctx.moveTo(0, ysI)
-  ctx.lineTo(wScreen, ysF)
+  ctx.moveTo(xsI, ysI)
+  ctx.lineTo(xsF, ysF)
   ctx.stroke()
 }
 
